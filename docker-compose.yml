@@ -40,21 +40,21 @@ services:
       - LABELS_ONLY=true
     restart: unless-stopped
 
-  ddclient:
-    image: linuxserver/ddclient
-    container_name: ddclient
-    volumes:
-      - ${CONFIG}/ddclient:/config
-    labels:
-      com.ouroboros.enable: "true"
-    restart: unless-stopped
+#  ddclient:
+#    image: linuxserver/ddclient
+#    container_name: ddclient
+#    volumes:
+#      - ${CONFIG}/ddclient:/config
+#    labels:
+#      com.ouroboros.enable: "true"
+#    restart: unless-stopped
 
   sabnzbd:
     image: linuxserver/sabnzbd:latest
     container_name: sabnzbd
     hostname: sabnzbd
     ports:
-      - "8080:8080"
+      - "8233:8080"
     volumes:
       - ${CONFIG}/sabnzbd:/config
       - ${DOWNLOAD}/complete:/downloads
@@ -66,7 +66,7 @@ services:
       - TZ
     labels:
       traefik.enable: "true"
-      traefik.port: "8080"
+      traefik.port: "8233"
       traefik.frontend.rule: "Host:sabnzbd.${DOMAIN}"
       traefik.frontend.auth.basic: "${HTPASSWD}"
       com.ouroboros.enable: "true"
@@ -204,54 +204,54 @@ services:
       com.ouroboros.enable: "true"
     restart: unless-stopped
 
-  plex:
-    image: linuxserver/plex
-    container_name: plex
-    hostname: plex
-    ports:
-      - "32400:32400"
-      - "32400:32400/udp"
-      - "32469:32469"
-      - "32469:32469/udp"
-      - "1900:1900/udp"
-    volumes:
-      - ${CONFIG}/plex:/config
-      - ${DATA}/tv:/media/tv
-      - ${DATA}/movies:/media/movies
-      - ${DATA}/music:/media/music
-      - ${DATA}/anime:/media/anime
-    environment:
-      - PGID
-      - PUID
-      - TZ
-      - VERSION=latest
-    labels:
-      traefik.enable: "true"
-      traefik.port: "32400"
-      traefik.frontend.rule: "Host:plex.${DOMAIN}"
-      com.ouroboros.enable: "true"
-    restart: unless-stopped
+#  plex:
+#    image: linuxserver/plex
+#    container_name: plex
+#    hostname: plex
+#    ports:
+#      - "32400:32400"
+#      - "32400:32400/udp"
+#      - "32469:32469"
+#      - "32469:32469/udp"
+#      - "1900:1900/udp"
+#    volumes:
+#      - ${CONFIG}/plex:/config
+#      - ${DATA}/tv:/media/tv
+#      - ${DATA}/movies:/media/movies
+#      - ${DATA}/music:/media/music
+#      - ${DATA}/anime:/media/anime
+#    environment:
+#      - PGID
+#      - PUID
+#      - TZ
+#      - VERSION=latest
+#    labels:
+#      traefik.enable: "true"
+#      traefik.port: "32400"
+#      traefik.frontend.rule: "Host:plex.${DOMAIN}"
+#      com.ouroboros.enable: "true"
+#    restart: unless-stopped
 
-  plexpy:
-    image: linuxserver/tautulli:latest
-    container_name: tautulli
-    hostname: tautulli
-    ports:
-      - "8181:8181"
-    volumes:
-      - ${CONFIG}/plexpy:/config
-      - ${CONFIG}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
-    environment:
-      - PGID
-      - PUID
-      - TZ
-    labels:
-      traefik.enable: "true"
-      traefik.port: "8181"
-      traefik.frontend.rule: "Host:tautulli.${DOMAIN}"
-      traefik.frontend.auth.basic: "${HTPASSWD}"
-      com.ouroboros.enable: "true"
-    restart: unless-stopped
+#  plexpy:
+#    image: linuxserver/tautulli:latest
+#    container_name: tautulli
+#    hostname: tautulli
+#    ports:
+#      - "8181:8181"
+#    volumes:
+#      - ${CONFIG}/plexpy:/config
+#      - ${CONFIG}/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+#    environment:
+#      - PGID
+#      - PUID
+#      - TZ
+#    labels:
+#      traefik.enable: "true"
+#      traefik.port: "8181"
+#      traefik.frontend.rule: "Host:tautulli.${DOMAIN}"
+#      traefik.frontend.auth.basic: "${HTPASSWD}"
+#      com.ouroboros.enable: "true"
+#    restart: unless-stopped
 
   heimdall:
     image: duhio/heimdall-https:latest
@@ -271,42 +271,42 @@ services:
       com.ouroboros.enable: "true"
     restart: unless-stopped
 
-  ombi:
-    image: linuxserver/ombi
-    container_name: ombi
-    hostname: ombi
-    ports:
-      - "3579:3579"
-    volumes:
-      - ${CONFIG}/ombi:/config
-    environment:
-      - PGID
-      - PUID
-      - TZ
-    labels:
-      traefik.enable: "true"
-      traefik.port: "3579"
-      traefik.frontend.rule: "Host:ombi.${DOMAIN}"
-      com.ouroboros.enable: "true"
-    restart: unless-stopped
+#  ombi:
+#    image: linuxserver/ombi
+#    container_name: ombi
+#    hostname: ombi
+#    ports:
+#      - "3579:3579"
+#    volumes:
+#      - ${CONFIG}/ombi:/config
+#    environment:
+#      - PGID
+#      - PUID
+#      - TZ
+#    labels:
+#      traefik.enable: "true"
+#      traefik.port: "3579"
+#      traefik.frontend.rule: "Host:ombi.${DOMAIN}"
+#      com.ouroboros.enable: "true"
+#    restart: unless-stopped
 
-  flexget:
-    image: cpoppema/docker-flexget
-    container_name: flexget
-    hostname: flexget
-    ports:
-      - "5050:5050"
-    volumes:
-      - ${CONFIG}/flexget:/config
-      - ${DOWNLOAD}/watch:/watch
-    environment:
-      - PGID
-      - PUID
-      - WEB_PASSWD=pNTgQj4hfJPPiGVFt9re
-    labels:
-      traefik.enable: "true"
-      traefik.port: "5050"
-      traefik.frontend.rule: "Host:flexget.${DOMAIN}"
-      traefik.frontend.auth.basic: "${HTPASSWD}"
-      com.ouroboros.enable: "true"
-    restart: unless-stopped
+#  flexget:
+#    image: cpoppema/docker-flexget
+#    container_name: flexget
+#    hostname: flexget
+#    ports:
+#      - "5050:5050"
+#    volumes:
+#      - ${CONFIG}/flexget:/config
+#      - ${DOWNLOAD}/watch:/watch
+#    environment:
+#      - PGID
+#      - PUID
+#      - WEB_PASSWD=pNTgQj4hfJPPiGVFt9re
+#    labels:
+#      traefik.enable: "true"
+#      traefik.port: "5050"
+#      traefik.frontend.rule: "Host:flexget.${DOMAIN}"
+#      traefik.frontend.auth.basic: "${HTPASSWD}"
+#     com.ouroboros.enable: "true"
+#   restart: unless-stopped
